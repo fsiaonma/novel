@@ -1,78 +1,78 @@
-
-var HelloWorldLayer = cc.Layer.extend({
-    sprite:null,
-    ctor:function () {
-        //////////////////////////////
-        // 1. super init first
+var HelloWorldScene = cc.Scene.extend({
+    onEnterTransitionDidFinish: function () {
         this._super();
-
-        /////////////////////////////
-        // 2. add a menu item with "X" image, which is clicked to quit the program
-        //    you may modify it.
-        // ask the window size
-        var size = cc.winSize;
-
-        // add a "close" icon to exit the progress. it's an autorelease object
-        var closeItem = new cc.MenuItemImage(
-            res.CloseNormal_png,
-            res.CloseSelected_png,
-            function () {
-                cc.log("Menu is clicked!");
-            }, this);
-        closeItem.attr({
-            x: size.width - 20,
-            y: 20,
-            anchorX: 0.5,
-            anchorY: 0.5
-        });
-
-        var menu = new cc.Menu(closeItem);
-        menu.x = 0;
-        menu.y = 0;
-        this.addChild(menu, 1);
-
-        /////////////////////////////
-        // 3. add your codes below...
-        // add a label shows "Hello World"
-        // create and initialize a label
-        var helloLabel = new cc.LabelTTF("Hello World", "Arial", 38);
-        // position the label on the center of the screen
-        helloLabel.x = size.width / 2;
-        helloLabel.y = 0;
-        // add the label as a child to this layer
-        this.addChild(helloLabel, 5);
-
-        // add "HelloWorld" splash screen"
-        this.sprite = new cc.Sprite(res.HelloWorld_png);
-        this.sprite.attr({
-            x: size.width / 2,
-            y: size.height / 2,
-            scale: 0.5,
-            rotation: 180
-        });
-        this.addChild(this.sprite, 0);
-
-        this.sprite.runAction(
-            cc.sequence(
-                cc.rotateTo(2, 0),
-                cc.scaleTo(2, 1, 1)
-            )
-        );
-        helloLabel.runAction(
-            cc.spawn(
-                cc.moveBy(2.5, cc.p(0, size.height - 40)),
-                cc.tintTo(2.5,255,125,0)
-            )
-        );
-        return true;
+        var layer = new AppLayer();
+        this.addChild(layer);
     }
 });
 
-var HelloWorldScene = cc.Scene.extend({
-    onEnter:function () {
+var AppLayer = cc.Layer.extend({
+    ctor:function () {
         this._super();
-        var layer = new HelloWorldLayer();
-        this.addChild(layer);
+        this.init();
+    },
+
+    init: function() {
+        this.initBg();
+        this.initAnsweBtns();
+        this.addDialog();
+    },
+
+    initBg: function() {
+        var bg = cc.Sprite.create(GameRes.bg);
+        bg.setPosition(cc.p(Math.round(cc.winSize.width / 2), Math.round(cc.winSize.height / 2)));
+        this.addChild(bg);
+    },
+
+    initAnsweBtns: function() {
+        var button = new ccui.Button();
+        button.setTouchEnabled(true);
+        button.loadTextures(GameRes.button, GameRes.buttonPress, "");
+        button.setAnchorPoint(cc.p(0, 0));
+        button.setPosition(cc.p(30, 30));
+        button.addTouchEventListener(function() {
+
+        }, this);
+        this.addChild(button);
+
+        var button = new ccui.Button();
+        button.setTouchEnabled(true);
+        button.loadTextures(GameRes.button, GameRes.buttonPress, "");
+        button.setAnchorPoint(cc.p(0, 0));
+        button.setPosition(cc.p(380, 30));
+        button.addTouchEventListener(function() {
+
+        }, this);
+        this.addChild(button);
+    },
+
+    addDialog: function() {
+        var dialog = cc.Sprite.create(GameRes.dialog);
+        dialog.setAnchorPoint(cc.p(0, 0));
+        dialog.setPosition(cc.p(0, 250));
+        this.addChild(dialog);
+
+        var dialog = cc.Sprite.create(GameRes.dialog);
+        dialog.setAnchorPoint(cc.p(0, 0));
+        dialog.setPosition(cc.p(0, 450));
+        this.addChild(dialog);
+
+        var dialog = cc.Sprite.create(GameRes.dialog);
+        dialog.setAnchorPoint(cc.p(0, 0));
+        dialog.setPosition(cc.p(cc.winSize.width, 650));
+        dialog.setScaleX(-1);
+        this.addChild(dialog);
+
+        var dialog = cc.Sprite.create(GameRes.dialog);
+        dialog.setAnchorPoint(cc.p(0, 0));
+        dialog.setPosition(cc.p(cc.winSize.width, 850));
+        dialog.setScaleX(-1);
+        this.addChild(dialog);
+
+        var dialog = cc.Sprite.create(GameRes.dialog);
+        dialog.setAnchorPoint(cc.p(0, 0));
+        dialog.setPosition(cc.p(0, 1050));
+        this.addChild(dialog);
     }
 });
 
